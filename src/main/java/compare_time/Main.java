@@ -1,8 +1,20 @@
 package compare_time;
 
+import java.util.Date;
+import java.util.Random;
+
 public class Main {
     public static void main(String[] args) {
-        Integer[] array = new Integer[]{1, 2, 4, 100, 11, 21, 23};
+
+        Random random = new Random(new Date().getTime());
+
+        int size = 100;
+
+        Integer[] array = new Integer[size];
+        for (int i = 0; i < array.length; i++) {
+            array[i] = random.nextInt();
+        }
+
         int toBeFound = 12;
 
         SingleTestResult result = measureTime(array, toBeFound);
