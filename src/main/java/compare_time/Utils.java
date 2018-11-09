@@ -9,7 +9,7 @@ public class Utils {
     }
 
     public static Integer[] randomArray(int size) {
-        Random random = new Random(new Date().getTime());
+        Random random = new Random(System.nanoTime());
         Integer[] array = new Integer[size];
         for (int i = 0; i < array.length; i++) {
             array[i] = random.nextInt();

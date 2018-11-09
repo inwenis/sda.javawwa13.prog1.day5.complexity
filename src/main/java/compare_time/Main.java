@@ -8,22 +8,18 @@ import static compare_time.Utils.randomArray;
 
 public class Main {
     public static void main(String[] args) {
-        int repeatRunForSingleDataSet = 10;
-        int generateThisManySetsOfSameSize = 10;
-        int size = 100000;
+        System.out.printf("\tarray\tbst\n");
+        for (int i = 10; i < 100000000; i+=1000) {
+            SingleTestResult result = repeatForSize(1, 1, i);
 
-        System.out.printf("array bst\n");
-
-        for (int i = 10; i < 100000; i+=1000) {
-            SingleTestResult result = repeatForSize(generateThisManySetsOfSameSize, repeatRunForSingleDataSet, i);
-            System.out.printf("%f %f\n", result.timeForArraySeconds, result.timeForBstSeconds);
+            System.out.printf("%d\t%.10f\t%.10f\n", i, result.timeForArraySeconds, result.timeForBstSeconds);
         }
     }
 
     private static SingleTestResult repeatForSize(int generateThisManyDataSets, int repeatRunForSingleDataSet, int size) {
-        Random random = new Random(new Date().getTime());
+        Random random = new Random(System.nanoTime());
 
-        SingleTestResult[] results = new SingleTestResult[repeatRunForSingleDataSet];
+        SingleTestResult[] results = new SingleTestResult[generateThisManyDataSets];
         for (int i = 0; i < generateThisManyDataSets; i++) {
             Integer[] array = randomArray(size);
             Integer toBeFound = random.nextInt();
@@ -49,13 +45,14 @@ public class Main {
 
     private static SingleTestResult runTestsMultipleTimes(Integer[] array, Integer toBeFound, int repeatRunForSingleDataSet) {
         // multi tier jitting
-        measureTime(array, toBeFound);
-        measureTime(array, toBeFound);
-        measureTime(array, toBeFound);
+//        measureTime(array, toBeFound);
+//        measureTime(array, toBeFound);
+//        measureTime(array, toBeFound);
 
         SingleTestResult[] results = new SingleTestResult[repeatRunForSingleDataSet];
         for (int i = 0; i < repeatRunForSingleDataSet; i++) {
             SingleTestResult result = measureTime(array, toBeFound);
+//            System.out.printf("\t%f %f\n", result.timeForArraySeconds, result.timeForBstSeconds);
             results[i] = result;
         }
 
@@ -82,7 +79,7 @@ public class Main {
         }
 
         long before = System.nanoTime();
-        boolean foundInArray = findInArray(array , toBeFound);
+        boolean foundInArray = findInArray(array, toBeFound);
         long after = System.nanoTime();
         long elapsedNanoSeconds = after - before;
         double timeForArray = Utils.nanoToSeconds(elapsedNanoSeconds);
@@ -92,7 +89,6 @@ public class Main {
         after = System.nanoTime();
         elapsedNanoSeconds = after - before;
         double timeForBst = Utils.nanoToSeconds(elapsedNanoSeconds);
-
         if (foundInArray != foundInBst) {
             throw new RuntimeException("something is clearly wrong");
         }
