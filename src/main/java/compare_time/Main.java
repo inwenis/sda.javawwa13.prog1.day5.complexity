@@ -3,24 +3,35 @@ package compare_time;
 public class Main {
     public static void main(String[] args) {
         Integer[] array = new Integer[]{1, 2, 4, 100, 11, 21, 23};
+        int toBeFound = 12;
 
+        SingleTestResult result = measureTime(array, toBeFound);
+        System.out.println(String.format("%f", result.timeForArraySeconds));
+        System.out.println(String.format("%f", result.timeForBstSeconds));
+    }
+
+    private static SingleTestResult measureTime(Integer[] array, int toBeFound) {
         BstTree bst = new BstTree();
-
         for (Integer i : array) {
             bst.insert(i);
         }
 
         long before = System.nanoTime();
-        boolean foundInArray = findInArray(array ,12);
+        boolean foundInArray = findInArray(array , toBeFound);
         long after = System.nanoTime();
         long elapsedNanoSeconds = after - before;
-        System.out.println("elapsed nanoseconds: " + elapsedNanoSeconds);
+        double timeForArray = Utils.nanoToSeconds(elapsedNanoSeconds);
 
         before = System.nanoTime();
-        boolean foundInBst = findInBst(bst, 12);
+        boolean foundInBst = findInBst(bst, toBeFound);
         after = System.nanoTime();
         elapsedNanoSeconds = after - before;
-        System.out.println("elapsed nanoseconds: " + elapsedNanoSeconds);
+        double timeForBst = Utils.nanoToSeconds(elapsedNanoSeconds);
+
+        SingleTestResult result = new SingleTestResult();
+        result.timeForArraySeconds = timeForArray;
+        result.timeForBstSeconds = timeForBst;
+        return result;
     }
 
     private static boolean findInBst(BstTree bst, int toBeFound) {
