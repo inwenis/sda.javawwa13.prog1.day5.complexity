@@ -93,6 +93,10 @@ public class Main {
         elapsedNanoSeconds = after - before;
         double timeForBst = Utils.nanoToSeconds(elapsedNanoSeconds);
 
+        if (foundInArray != foundInBst) {
+            throw new RuntimeException("something is clearly wrong");
+        }
+
         SingleTestResult result = new SingleTestResult();
         result.timeForArraySeconds = timeForArray;
         result.timeForBstSeconds = timeForBst;
