@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="sda.javawwa13.prog1.day5.complixity" target="1.7" />
+      <module name="sda.javawwa13.prog1.day5.complixity" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
