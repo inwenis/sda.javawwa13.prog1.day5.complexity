@@ -6,27 +6,22 @@ import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
-
-
+        int repeatRunForSingleDataSet = 10;
+        int generateThisManySetsOfSameSize = 10;
         int size = 100000;
+        SingleTestResult result = repeatForSize(generateThisManySetsOfSameSize, repeatRunForSingleDataSet, size);
+        System.out.printf("%f %f\n", result.timeForArraySeconds, result.timeForBstSeconds);
+    }
+
+    private static SingleTestResult repeatForSize(int generateThisManyDataSets, int repeatRunForSingleDataSet, int size) {
         Random random = new Random(new Date().getTime());
 
-        Integer[] array = randomArray(size);
-        Integer toBeFound = random.nextInt();
-
-        int repeatRunForSingleDataSet = 10;
-
-        // multi tier jitting
-        measureTime(array, toBeFound);
-        measureTime(array, toBeFound);
-        measureTime(array, toBeFound);
-
         SingleTestResult[] results = new SingleTestResult[repeatRunForSingleDataSet];
-        for (int i = 0; i < repeatRunForSingleDataSet; i++) {
-            SingleTestResult result = measureTime(array, toBeFound);
+        for (int i = 0; i < generateThisManyDataSets; i++) {
+            Integer[] array = randomArray(size);
+            Integer toBeFound = random.nextInt();
+            SingleTestResult result = runTestsMultipleTimes(array, toBeFound, repeatRunForSingleDataSet);
             results[i] = result;
-            String formated = String.format("%f %f", result.timeForArraySeconds, result.timeForBstSeconds);
-            System.out.println(formated);
         }
 
         double averageTimeForArrayInSeconds = Arrays.stream(results)
@@ -39,8 +34,38 @@ public class Main {
                 .average()
                 .getAsDouble();
 
-        String formated = String.format("%f %f", averageTimeForArrayInSeconds, averageTimeForBstInSeconds);
-        System.out.println(formated);
+        SingleTestResult averageResult = new SingleTestResult();
+        averageResult.timeForBstSeconds = averageTimeForBstInSeconds;
+        averageResult.timeForArraySeconds = averageTimeForArrayInSeconds;
+        return averageResult;
+    }
+
+    private static SingleTestResult runTestsMultipleTimes(Integer[] array, Integer toBeFound, int repeatRunForSingleDataSet) {
+        // multi tier jitting
+        measureTime(array, toBeFound);
+        measureTime(array, toBeFound);
+        measureTime(array, toBeFound);
+
+        SingleTestResult[] results = new SingleTestResult[repeatRunForSingleDataSet];
+        for (int i = 0; i < repeatRunForSingleDataSet; i++) {
+            SingleTestResult result = measureTime(array, toBeFound);
+            results[i] = result;
+        }
+
+        double averageTimeForArrayInSeconds = Arrays.stream(results)
+                .mapToDouble(x -> x.timeForArraySeconds)
+                .average()
+                .getAsDouble();
+
+        double averageTimeForBstInSeconds = Arrays.stream(results)
+                .mapToDouble(x -> x.timeForBstSeconds)
+                .average()
+                .getAsDouble();
+
+        SingleTestResult averageResult = new SingleTestResult();
+        averageResult.timeForBstSeconds = averageTimeForBstInSeconds;
+        averageResult.timeForArraySeconds = averageTimeForArrayInSeconds;
+        return averageResult;
     }
 
     private static Integer[] randomArray(int size) {
