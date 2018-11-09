@@ -6,20 +6,26 @@ import java.util.Random;
 public class Main {
     public static void main(String[] args) {
 
-        Random random = new Random(new Date().getTime());
 
         int size = 100;
+        Random random = new Random(new Date().getTime());
 
-        Integer[] array = new Integer[size];
-        for (int i = 0; i < array.length; i++) {
-            array[i] = random.nextInt();
-        }
+        Integer[] array = randomArray(size);
 
-        int toBeFound = 12;
+        Integer toBeFound = random.nextInt();
 
         SingleTestResult result = measureTime(array, toBeFound);
         System.out.println(String.format("%f", result.timeForArraySeconds));
         System.out.println(String.format("%f", result.timeForBstSeconds));
+    }
+
+    private static Integer[] randomArray(int size) {
+        Random random = new Random(new Date().getTime());
+        Integer[] array = new Integer[size];
+        for (int i = 0; i < array.length; i++) {
+            array[i] = random.nextInt();
+        }
+        return array;
     }
 
     private static SingleTestResult measureTime(Integer[] array, int toBeFound) {
