@@ -4,13 +4,20 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Random;
 
+import static compare_time.Utils.randomArray;
+
 public class Main {
     public static void main(String[] args) {
         int repeatRunForSingleDataSet = 10;
         int generateThisManySetsOfSameSize = 10;
         int size = 100000;
-        SingleTestResult result = repeatForSize(generateThisManySetsOfSameSize, repeatRunForSingleDataSet, size);
-        System.out.printf("%f %f\n", result.timeForArraySeconds, result.timeForBstSeconds);
+
+        System.out.printf("array bst\n");
+
+        for (int i = 10; i < 100000; i+=1000) {
+            SingleTestResult result = repeatForSize(generateThisManySetsOfSameSize, repeatRunForSingleDataSet, i);
+            System.out.printf("%f %f\n", result.timeForArraySeconds, result.timeForBstSeconds);
+        }
     }
 
     private static SingleTestResult repeatForSize(int generateThisManyDataSets, int repeatRunForSingleDataSet, int size) {
@@ -66,15 +73,6 @@ public class Main {
         averageResult.timeForBstSeconds = averageTimeForBstInSeconds;
         averageResult.timeForArraySeconds = averageTimeForArrayInSeconds;
         return averageResult;
-    }
-
-    private static Integer[] randomArray(int size) {
-        Random random = new Random(new Date().getTime());
-        Integer[] array = new Integer[size];
-        for (int i = 0; i < array.length; i++) {
-            array[i] = random.nextInt();
-        }
-        return array;
     }
 
     private static SingleTestResult measureTime(Integer[] array, int toBeFound) {
