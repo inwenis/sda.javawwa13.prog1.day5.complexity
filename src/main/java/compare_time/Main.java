@@ -1,7 +1,6 @@
 package compare_time;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Random;
 
 import static compare_time.Utils.randomArray;
