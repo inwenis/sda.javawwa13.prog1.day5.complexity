@@ -9,15 +9,15 @@ public class Main {
     public static void main(String[] args) {
         System.out.printf("\tarray\tbst\n");
         for (int i = 10; i < 100000000; i+=1000) {
-            TestResult[][] result = runTestForInputOfSize(i, 1, 1);
-            System.out.printf("%d\t%.10f\t%.10f\n", i, result[0][0].timeForArraySeconds, result[0][0].timeForBstSeconds);
+            TestResultWithStats[] result = runTestForInputOfSize(i, 10, 10);
+            System.out.printf("%d\t%.10f\t%.10f\n", i, result[0].statsForArray.median, result[0].statsForBst.median);
         }
     }
 
-    private static TestResult[][] runTestForInputOfSize(int size, int repeatTestCount, int repeatSizeCount) {
+    private static TestResultWithStats[] runTestForInputOfSize(int size, int repeatTestCount, int repeatSizeCount) {
         Random random = new Random(System.nanoTime());
 
-        TestResult[][] results = new TestResult[repeatSizeCount][];
+        TestResultWithStats[] results = new TestResultWithStats[repeatSizeCount];
         for (int i = 0; i < repeatSizeCount; i++) {
             Integer[] array = randomArray(size);
             Integer toBeFound = random.nextInt();
@@ -27,7 +27,7 @@ public class Main {
         return results;
     }
 
-    private static TestResult[] runTest(Integer[] array, Integer toBeFound, int repeatTestCount) {
+    private static TestResultWithStats runTest(Integer[] array, Integer toBeFound, int repeatTestCount) {
         // multi tier jitting
 //        runTest(array, toBeFound);
 //        runTest(array, toBeFound);
@@ -40,7 +40,25 @@ public class Main {
             results[i] = result;
         }
 
-        return results;
+        double[] timesForArray = Arrays.stream(results)
+                .mapToDouble(x -> x.timeForArraySeconds)
+                .sorted()
+                .toArray();
+
+        double[] timesForBst = Arrays.stream(results)
+                .mapToDouble(x -> x.timeForBstSeconds)
+                .sorted()
+                .toArray();
+
+        Statistics statsForArray = Statistics.compute(timesForArray);
+        Statistics statsForBst = Statistics.compute(timesForBst);
+
+        TestResultWithStats result = new TestResultWithStats();
+        result.timesForArray = timesForArray;
+        result.timesForBst = timesForBst;
+        result.statsForArray = statsForArray;
+        result.statsForBst = statsForBst;
+        return result;
     }
 
     private static TestResult runTest(Integer[] array, int toBeFound) {

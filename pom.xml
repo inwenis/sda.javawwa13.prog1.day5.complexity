@@ -19,6 +19,13 @@
             </plugin>
         </plugins>
     </build>
-
+    <dependencies>
+        <dependency>
+            <groupId>org.kie.modules</groupId>
+            <artifactId>org-apache-commons-math</artifactId>
+            <version>6.5.0.Final</version>
+            <type>pom</type>
+        </dependency>
+    </dependencies>
 
 </project>
