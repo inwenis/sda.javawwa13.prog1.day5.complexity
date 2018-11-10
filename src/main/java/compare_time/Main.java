@@ -13,8 +13,8 @@ public class Main {
 
         System.out.printf("%s\t%s\t%s\t%s\t%s\n",
                 "integers count",
-                "array.contains()",
-                "binary_search_tree.contains()",
+                "array.contains() [ms]",
+                "binary_search_tree.contains() [ms]",
                 "array.contains() measures count without outsiders",
                 "binary_search_tree.contains.contains() measures count without outsiders");
         for (int i = 1000; i < 100000000; i+=1000) {
@@ -47,17 +47,16 @@ public class Main {
         TestResult[] results = new TestResult[repeatTestCount];
         for (int i = 0; i < repeatTestCount; i++) {
             TestResult result = runTest(array, toBeFound);
-//            System.out.printf("\t%f %f\n", result.timeForArraySeconds, result.timeForBstSeconds);
             results[i] = result;
         }
 
         double[] arrayTimes = Arrays.stream(results)
-                .mapToDouble(x -> x.timeForArraySeconds)
+                .mapToDouble(x -> x.timeForArrayMilliSeconds)
                 .sorted()
                 .toArray();
 
         double[] bstTimes = Arrays.stream(results)
-                .mapToDouble(x -> x.timeForBstSeconds)
+                .mapToDouble(x -> x.timeForBstMilliSeconds)
                 .sorted()
                 .toArray();
 
@@ -93,20 +92,20 @@ public class Main {
         boolean foundInArray = findInArray(array, toBeFound);
         long after = System.nanoTime();
         long elapsedNanoSeconds = after - before;
-        double timeForArray = Utils.nanoToSeconds(elapsedNanoSeconds);
+        double timeForArray = Utils.nanoToMilliSeconds(elapsedNanoSeconds);
 
         before = System.nanoTime();
         boolean foundInBst = findInBst(bst, toBeFound);
         after = System.nanoTime();
         elapsedNanoSeconds = after - before;
-        double timeForBst = Utils.nanoToSeconds(elapsedNanoSeconds);
+        double timeForBst = Utils.nanoToMilliSeconds(elapsedNanoSeconds);
         if (foundInArray != foundInBst) {
             throw new RuntimeException("something is clearly wrong");
         }
 
         TestResult result = new TestResult();
-        result.timeForArraySeconds = timeForArray;
-        result.timeForBstSeconds = timeForBst;
+        result.timeForArrayMilliSeconds = timeForArray;
+        result.timeForBstMilliSeconds = timeForBst;
         return result;
     }
 

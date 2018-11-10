@@ -1,11 +1,10 @@
 package compare_time;
 
-import java.util.Date;
 import java.util.Random;
 
 public class Utils {
-    public static double nanoToSeconds(long nanoSeconds) {
-        return (double) nanoSeconds / 1000000000;
+    public static double nanoToMilliSeconds(long nanoSeconds) {
+        return (double) nanoSeconds / 1000000;
     }
 
     public static Integer[] randomArray(int size) {
