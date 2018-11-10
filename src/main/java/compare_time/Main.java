@@ -9,39 +9,25 @@ public class Main {
     public static void main(String[] args) {
         System.out.printf("\tarray\tbst\n");
         for (int i = 10; i < 100000000; i+=1000) {
-            TestResult result = runTestForInputOfSize(i, 1, 1);
-            System.out.printf("%d\t%.10f\t%.10f\n", i, result.timeForArraySeconds, result.timeForBstSeconds);
+            TestResult[][] result = runTestForInputOfSize(i, 1, 1);
+            System.out.printf("%d\t%.10f\t%.10f\n", i, result[0][0].timeForArraySeconds, result[0][0].timeForBstSeconds);
         }
     }
 
-    private static TestResult runTestForInputOfSize(int size, int repeatTestCount, int repeatSizeCount) {
+    private static TestResult[][] runTestForInputOfSize(int size, int repeatTestCount, int repeatSizeCount) {
         Random random = new Random(System.nanoTime());
 
-        TestResult[] results = new TestResult[repeatSizeCount];
+        TestResult[][] results = new TestResult[repeatSizeCount][];
         for (int i = 0; i < repeatSizeCount; i++) {
             Integer[] array = randomArray(size);
             Integer toBeFound = random.nextInt();
-            TestResult result = runTest(array, toBeFound, repeatTestCount);
-            results[i] = result;
+            results[i] = runTest(array, toBeFound, repeatTestCount);
         }
 
-        double averageTimeForArrayInSeconds = Arrays.stream(results)
-                .mapToDouble(x -> x.timeForArraySeconds)
-                .average()
-                .getAsDouble();
-
-        double averageTimeForBstInSeconds = Arrays.stream(results)
-                .mapToDouble(x -> x.timeForBstSeconds)
-                .average()
-                .getAsDouble();
-
-        TestResult averageResult = new TestResult();
-        averageResult.timeForBstSeconds = averageTimeForBstInSeconds;
-        averageResult.timeForArraySeconds = averageTimeForArrayInSeconds;
-        return averageResult;
+        return results;
     }
 
-    private static TestResult runTest(Integer[] array, Integer toBeFound, int repeatTestCount) {
+    private static TestResult[] runTest(Integer[] array, Integer toBeFound, int repeatTestCount) {
         // multi tier jitting
 //        runTest(array, toBeFound);
 //        runTest(array, toBeFound);
@@ -54,20 +40,7 @@ public class Main {
             results[i] = result;
         }
 
-        double averageTimeForArrayInSeconds = Arrays.stream(results)
-                .mapToDouble(x -> x.timeForArraySeconds)
-                .average()
-                .getAsDouble();
-
-        double averageTimeForBstInSeconds = Arrays.stream(results)
-                .mapToDouble(x -> x.timeForBstSeconds)
-                .average()
-                .getAsDouble();
-
-        TestResult averageResult = new TestResult();
-        averageResult.timeForBstSeconds = averageTimeForBstInSeconds;
-        averageResult.timeForArraySeconds = averageTimeForArrayInSeconds;
-        return averageResult;
+        return results;
     }
 
     private static TestResult runTest(Integer[] array, int toBeFound) {
