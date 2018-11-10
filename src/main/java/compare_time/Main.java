@@ -9,20 +9,19 @@ public class Main {
     public static void main(String[] args) {
         System.out.printf("\tarray\tbst\n");
         for (int i = 10; i < 100000000; i+=1000) {
-            SingleTestResult result = repeatForSize(1, 1, i);
-
+            TestResult result = runTestForInputOfSize(i, 1, 1);
             System.out.printf("%d\t%.10f\t%.10f\n", i, result.timeForArraySeconds, result.timeForBstSeconds);
         }
     }
 
-    private static SingleTestResult repeatForSize(int generateThisManyDataSets, int repeatRunForSingleDataSet, int size) {
+    private static TestResult runTestForInputOfSize(int size, int repeatTestCount, int repeatSizeCount) {
         Random random = new Random(System.nanoTime());
 
-        SingleTestResult[] results = new SingleTestResult[generateThisManyDataSets];
-        for (int i = 0; i < generateThisManyDataSets; i++) {
+        TestResult[] results = new TestResult[repeatSizeCount];
+        for (int i = 0; i < repeatSizeCount; i++) {
             Integer[] array = randomArray(size);
             Integer toBeFound = random.nextInt();
-            SingleTestResult result = runTestsMultipleTimes(array, toBeFound, repeatRunForSingleDataSet);
+            TestResult result = runTest(array, toBeFound, repeatTestCount);
             results[i] = result;
         }
 
@@ -36,21 +35,21 @@ public class Main {
                 .average()
                 .getAsDouble();
 
-        SingleTestResult averageResult = new SingleTestResult();
+        TestResult averageResult = new TestResult();
         averageResult.timeForBstSeconds = averageTimeForBstInSeconds;
         averageResult.timeForArraySeconds = averageTimeForArrayInSeconds;
         return averageResult;
     }
 
-    private static SingleTestResult runTestsMultipleTimes(Integer[] array, Integer toBeFound, int repeatRunForSingleDataSet) {
+    private static TestResult runTest(Integer[] array, Integer toBeFound, int repeatTestCount) {
         // multi tier jitting
-//        measureTime(array, toBeFound);
-//        measureTime(array, toBeFound);
-//        measureTime(array, toBeFound);
+//        runTest(array, toBeFound);
+//        runTest(array, toBeFound);
+//        runTest(array, toBeFound);
 
-        SingleTestResult[] results = new SingleTestResult[repeatRunForSingleDataSet];
-        for (int i = 0; i < repeatRunForSingleDataSet; i++) {
-            SingleTestResult result = measureTime(array, toBeFound);
+        TestResult[] results = new TestResult[repeatTestCount];
+        for (int i = 0; i < repeatTestCount; i++) {
+            TestResult result = runTest(array, toBeFound);
 //            System.out.printf("\t%f %f\n", result.timeForArraySeconds, result.timeForBstSeconds);
             results[i] = result;
         }
@@ -65,13 +64,13 @@ public class Main {
                 .average()
                 .getAsDouble();
 
-        SingleTestResult averageResult = new SingleTestResult();
+        TestResult averageResult = new TestResult();
         averageResult.timeForBstSeconds = averageTimeForBstInSeconds;
         averageResult.timeForArraySeconds = averageTimeForArrayInSeconds;
         return averageResult;
     }
 
-    private static SingleTestResult measureTime(Integer[] array, int toBeFound) {
+    private static TestResult runTest(Integer[] array, int toBeFound) {
         BstTree bst = new BstTree();
         for (Integer i : array) {
             bst.insert(i);
@@ -92,7 +91,7 @@ public class Main {
             throw new RuntimeException("something is clearly wrong");
         }
 
-        SingleTestResult result = new SingleTestResult();
+        TestResult result = new TestResult();
         result.timeForArraySeconds = timeForArray;
         result.timeForBstSeconds = timeForBst;
         return result;

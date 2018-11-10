@@ -1,6 +1,6 @@
 package compare_time;
 
-public class SingleTestResult {
+public class TestResult {
     public double timeForArraySeconds;
     public double timeForBstSeconds;
     public boolean foundInArray;
