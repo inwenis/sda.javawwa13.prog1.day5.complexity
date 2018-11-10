@@ -7,6 +7,11 @@ import static compare_time.Utils.randomArray;
 
 public class Main {
     public static void main(String[] args) {
+
+        // jitting
+        TestResultWithStats[] lostResult = runTestForInputOfSize(100, 2, 3);
+
+
         System.out.printf("\tarray\tbst\taCoutn\tbCount\n");
         for (int i = 1000; i < 100000000; i+=1000) {
             TestResultWithStats[] result = runTestForInputOfSize(i, 40, 1);
@@ -33,11 +38,6 @@ public class Main {
     }
 
     private static TestResultWithStats runTest(Integer[] array, Integer toBeFound, int repeatTestCount) {
-        // multi tier jitting
-//        runTest(array, toBeFound);
-//        runTest(array, toBeFound);
-//        runTest(array, toBeFound);
-
         TestResult[] results = new TestResult[repeatTestCount];
         for (int i = 0; i < repeatTestCount; i++) {
             TestResult result = runTest(array, toBeFound);
