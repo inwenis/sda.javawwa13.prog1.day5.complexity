@@ -17,7 +17,7 @@ public class Main {
                 "binary_search_tree.contains() [ms]",
                 "array.contains() measures count without outsiders",
                 "binary_search_tree.contains.contains() measures count without outsiders");
-        for (int i = 1000; i < 100000000; i+=1000) {
+        for (int i = 10000; i < 100000000; i+=10000) {
             TestResultWithStats[] results = runTestForInputOfSize(i, 40, 10 );
             for (TestResultWithStats result : results) {
                 System.out.printf("%d\t%.10f\t%.10f\t%d\t%d\n",
