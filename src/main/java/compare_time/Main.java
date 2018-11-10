@@ -11,16 +11,22 @@ public class Main {
         // jitting
         TestResultWithStats[] lostResult = runTestForInputOfSize(100, 2, 3);
 
-
-        System.out.printf("\tarray\tbst\taCoutn\tbCount\n");
+        System.out.printf("%s\t%s\t%s\t%s\t%s\n",
+                "integers count",
+                "array.contains()",
+                "binary_search_tree.contains()",
+                "array.contains() measures count without outsiders",
+                "binary_search_tree.contains.contains() measures count without outsiders");
         for (int i = 1000; i < 100000000; i+=1000) {
-            TestResultWithStats[] result = runTestForInputOfSize(i, 40, 1);
-            System.out.printf("%d\t%.10f\t%.10f\t%d\t%d\n",
-                    i,
-                    result[0].arrayStatsNoOutsiders.median,
-                    result[0].bstStatsNoOutsiders.median,
-                    result[0].arrayTimesNoOutsiders.length,
-                    result[0].bstTimesNoOutsiders.length);
+            TestResultWithStats[] results = runTestForInputOfSize(i, 40, 10 );
+            for (TestResultWithStats result : results) {
+                System.out.printf("%d\t%.10f\t%.10f\t%d\t%d\n",
+                        i,
+                        result.arrayStatsNoOutsiders.median,
+                        result.bstStatsNoOutsiders.median,
+                        result.arrayTimesNoOutsiders.length,
+                        result.bstTimesNoOutsiders.length);
+            }
         }
     }
 
