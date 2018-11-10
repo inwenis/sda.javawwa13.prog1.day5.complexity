@@ -43,8 +43,8 @@ public class Statistics {
         Statistics stats = compute(array);
 
         double[] withoutOutsiders = Arrays.stream(array)
-                .filter(x -> x > stats.average - 2 * stats.stdDev)
-                .filter(x -> x < stats.average + 2 * stats.stdDev)
+                .filter(x -> x > stats.average - stats.stdDev)
+                .filter(x -> x < stats.average + stats.stdDev)
                 .toArray();
 
         return withoutOutsiders;
