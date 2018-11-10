@@ -7,10 +7,15 @@ import static compare_time.Utils.randomArray;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.printf("\tarray\tbst\n");
-        for (int i = 10; i < 100000000; i+=1000) {
-            TestResultWithStats[] result = runTestForInputOfSize(i, 10, 10);
-            System.out.printf("%d\t%.10f\t%.10f\n", i, result[0].statsForArray.median, result[0].statsForBst.median);
+        System.out.printf("\tarray\tbst\taCoutn\tbCount\n");
+        for (int i = 1000; i < 100000000; i+=1000) {
+            TestResultWithStats[] result = runTestForInputOfSize(i, 40, 1);
+            System.out.printf("%d\t%.10f\t%.10f\t%d\t%d\n",
+                    i,
+                    result[0].arrayStatsNoOutsiders.median,
+                    result[0].bstStatsNoOutsiders.median,
+                    result[0].arrayTimesNoOutsiders.length,
+                    result[0].bstTimesNoOutsiders.length);
         }
     }
 
@@ -40,24 +45,35 @@ public class Main {
             results[i] = result;
         }
 
-        double[] timesForArray = Arrays.stream(results)
+        double[] arrayTimes = Arrays.stream(results)
                 .mapToDouble(x -> x.timeForArraySeconds)
                 .sorted()
                 .toArray();
 
-        double[] timesForBst = Arrays.stream(results)
+        double[] bstTimes = Arrays.stream(results)
                 .mapToDouble(x -> x.timeForBstSeconds)
                 .sorted()
                 .toArray();
 
-        Statistics statsForArray = Statistics.compute(timesForArray);
-        Statistics statsForBst = Statistics.compute(timesForBst);
+        Statistics statsForArray = Statistics.compute(arrayTimes);
+        Statistics statsForBst = Statistics.compute(bstTimes);
+
+        double[] arrayTimesNoOutsiders = Statistics.cutOutsiders(arrayTimes);
+        double[] bstTimesNoOutsiders = Statistics.cutOutsiders(bstTimes);
+
+        Statistics arrayStatsNoOutsiders = Statistics.compute(arrayTimesNoOutsiders);
+        Statistics bstStatsNoOutsiders = Statistics.compute(bstTimesNoOutsiders);
 
         TestResultWithStats result = new TestResultWithStats();
-        result.timesForArray = timesForArray;
-        result.timesForBst = timesForBst;
-        result.statsForArray = statsForArray;
-        result.statsForBst = statsForBst;
+        result.arrayTimes = arrayTimes;
+        result.bstTimes = bstTimes;
+        result.arrayTimesNoOutsiders = arrayTimesNoOutsiders;
+        result.bstTimesNoOutsiders = bstTimesNoOutsiders;
+        result.arrayStats = statsForArray;
+        result.bstStats = statsForBst;
+        result.arrayStatsNoOutsiders = arrayStatsNoOutsiders;
+        result.bstStatsNoOutsiders = bstStatsNoOutsiders;
+
         return result;
     }
 

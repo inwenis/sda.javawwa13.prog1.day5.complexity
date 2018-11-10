@@ -1,8 +1,12 @@
 package compare_time;
 
 public class TestResultWithStats {
-    public double[] timesForArray;
-    public double[] timesForBst;
-    public Statistics statsForArray;
-    public Statistics statsForBst;
+    public double[] arrayTimes;
+    public double[] bstTimes;
+    public Statistics arrayStats;
+    public Statistics bstStats;
+    public double[] arrayTimesNoOutsiders;
+    public double[] bstTimesNoOutsiders;
+    public Statistics arrayStatsNoOutsiders;
+    public Statistics bstStatsNoOutsiders;
 }

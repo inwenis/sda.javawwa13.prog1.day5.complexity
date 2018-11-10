@@ -39,23 +39,14 @@ public class Statistics {
         return median;
     }
 
-    private static void computeStatistics(TestResult[] results) {
-        // std dev.
-        // average without outlines
-        // media without outlines
-        // sort results
+    public static double[] cutOutsiders(double[] array) {
+        Statistics stats = compute(array);
 
-//        computeStatistics();
-//
-//        // remove outsiders
-//        double[] timesForArrayWithOutOutsiders = Arrays.stream(timesForArraySorted)
-//                .filter(x -> x > averageTimeForArraySeconds - 2 * stdDevArray)
-//                .filter(x -> x < averageTimeForArraySeconds + 2 * stdDevArray)
-//                .toArray();
-//
-//        double[] timesForBstWithOutOutsiders = Arrays.stream(timesForBstSorted)
-//                .filter(x -> x > averageTimeForBstSeconds - 2 * stdDevBst)
-//                .filter(x -> x < averageTimeForBstSeconds + 2 * stdDevBst)
-//                .toArray();
+        double[] withoutOutsiders = Arrays.stream(array)
+                .filter(x -> x > stats.average - 2 * stats.stdDev)
+                .filter(x -> x < stats.average + 2 * stats.stdDev)
+                .toArray();
+
+        return withoutOutsiders;
     }
 }
