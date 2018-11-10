@@ -6,6 +6,6 @@ Sample results below.
 
 Note that this is a `unbalanced binary search tree` thus the results are not so beautifully simillar to a `log2(n)` function. Searching for a values in a `*balanced* binary search tree` should be closer to a `log2(n)` function.
 
-![Chart - array vs bst](https://github.com/inwenis/sda.javawwa13.prog1.day5.complexity/blob/master/array_vs_bst.pdf)
+![Chart - array vs bst](https://github.com/inwenis/sda.javawwa13.prog1.day5.complexity/blob/master/array_vs_bst.png)
 
-![Chart - bst only](https://github.com/inwenis/sda.javawwa13.prog1.day5.complexity/blob/master/bst_only.pdf)
+![Chart - bst only](https://github.com/inwenis/sda.javawwa13.prog1.day5.complexity/blob/master/bst_only.png)
