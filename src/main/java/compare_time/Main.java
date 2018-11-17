@@ -2,6 +2,8 @@ package compare_time;
 
 import java.util.Arrays;
 import java.util.Random;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import static compare_time.Utils.randomArray;
 
@@ -83,10 +85,9 @@ public class Main {
     }
 
     private static TestResult runTest(Integer[] array, int toBeFound) {
-        BstTree bst = new BstTree();
-        for (Integer i : array) {
-            bst.insert(i);
-        }
+//        BstTree bst = new BstTree();
+        TreeMap<Integer, Integer> bst = new TreeMap<>();
+            bst.putAll(Arrays.stream(array).distinct().collect(Collectors.toMap(x -> x, x -> x)));
 
         long before = System.nanoTime();
         boolean foundInArray = findInArray(array, toBeFound);
@@ -109,8 +110,8 @@ public class Main {
         return result;
     }
 
-    private static boolean findInBst(BstTree bst, int toBeFound) {
-        return bst.contains(toBeFound);
+    private static boolean findInBst(TreeMap<Integer, Integer> bst, int toBeFound) {
+        return bst.containsKey(toBeFound);
     }
 
     private static boolean findInArray(Integer[] array, Integer toBeFound) {
