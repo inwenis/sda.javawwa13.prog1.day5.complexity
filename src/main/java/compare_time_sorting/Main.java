@@ -14,10 +14,10 @@ public class Main {
 
         System.out.printf("%s\t%s\t%s\n",
                 "integers count",
-                "array.contains() [ms]",
-                "binary_search_tree.contains() [ms]");
-        for (int i = 10000; i < 100000000; i+=10000) {
-            SortingTestResultWithStats[] results = runTestForInputOfSize(i, 40, 10 );
+                "bubble sort [ms]",
+                "java sort [ms]");
+        for (int i = 100; i < 100000000; i+=100) {
+            SortingTestResultWithStats[] results = runTestForInputOfSize(i, 10, 5 );
             for (SortingTestResultWithStats result : results) {
                 System.out.printf("%d\t%.10f\t%.10f\n",
                         i,
