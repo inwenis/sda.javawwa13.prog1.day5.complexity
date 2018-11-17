@@ -15,4 +15,13 @@ public class Utils {
         }
         return array;
     }
+
+    public static int[] randomIntArray(int size) {
+        Random random = new Random(System.nanoTime());
+        int[] array = new int[size];
+        for (int i = 0; i < array.length; i++) {
+            array[i] = random.nextInt();
+        }
+        return array;
+    }
 }
